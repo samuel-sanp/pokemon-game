@@ -23,10 +23,3 @@ class FirePokemon(Pokemon):
 
     def fire_atack(self, target):
         print("{} usou ataque de fogo em {}!".format(self.poke_name, target.poke_name))
-
-
-charmander = FirePokemon(poke_specie="Lagarto", poke_level=5, poke_name="Charmander")
-pikachu = EletricPokemon(poke_specie="Rato", poke_level=2, poke_name="Pikachu")
-
-print(charmander.basic_atack(pikachu))
-print(pikachu.eletric_atack(pikachu))
