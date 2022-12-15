@@ -1,7 +1,10 @@
+import random
+
+
 class Pokemon:
-    def __init__(self, poke_specie, poke_level=1, poke_name=None):
+    def __init__(self, poke_specie, poke_level=None, poke_name=None):
         self.poke_specie = poke_specie
-        self.poke_level = poke_level
+        self.poke_level = poke_level or random.randint(1, 100)
         self.poke_name = poke_name or poke_specie
 
     def __str__(self):
