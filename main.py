@@ -1,16 +1,37 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from person import *
+from pokemon import *
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def set_initial_pokemon(player, pokemon):
+    player.set_pokemons([pokemon])
+    print("Você escolheu o pokemon {}".format(pokemon.poke_name))
 
 
-# Press the green button in the gutter to run the script.
+def choose_initial_pokemon(player):
+    pikachu = EletricPokemon(poke_specie="rato", poke_level=1, poke_name="Pikachu")
+    charmander = FirePokemon(poke_specie="lagarto", poke_level=1, poke_name="Charmander")
+
+    print()
+    print('Olá {}, você poderá escolher um pokemon!'.format(player.name))
+
+    while True:
+        print('Você possui 2 escolhas:')
+        print('1 - {}'.format(pikachu.poke_name))
+        print('2 - {}'.format(charmander.poke_name))
+
+        choose = input()
+        if choose == '1':
+            set_initial_pokemon(player, pikachu)
+            break
+        elif choose == '2':
+            set_initial_pokemon(player, charmander)
+            break
+
+    print(player.show_pokemons())
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print("Bem vindo ao mundo Pokemon!")
+    player_name = input("Qual seu nome?\n")
+    player = Player(name=player_name)
+    choose_initial_pokemon(player)

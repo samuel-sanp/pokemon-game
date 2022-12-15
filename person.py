@@ -39,6 +39,10 @@ class Person:
         else:
             print("{} não possui pokemons".format(self.name))
 
+    def set_pokemons(self, pokemons):
+        for pokemon in pokemons:
+            self.pokemons.append(pokemon)
+
     def capture(self, target):
         capture = random.choice([True, False])
 
@@ -52,6 +56,9 @@ class Person:
 class Player(Person):
     person_type = "player"
 
+    def __init__(self, name=None, pokemons=[]):
+        super().__init__(name=name, pokemons=pokemons)
+
 
 class Enemy(Person):
     person_type = "enemy"
@@ -63,17 +70,3 @@ class Enemy(Person):
 
     def __init__(self, name=None, pokemons=[]):
         super().__init__(name=name, pokemons=pokemons or get_pokemon_list(), name_list=self.ENEMY_NAMES)
-
-
-picachu = EletricPokemon(poke_specie="rato", poke_name="Picachu")
-charmander = FirePokemon(poke_specie="lagarto", poke_name="Charmander")
-
-# player = Player(name="Samara")
-
-# player.show_pokemons()
-# player.capture(target=charmander)
-# player.show_pokemons()
-
-enemy = Enemy()
-print(enemy)
-enemy.show_pokemons()
