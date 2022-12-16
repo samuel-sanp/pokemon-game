@@ -58,11 +58,9 @@ class Person:
             print("Não há pokemons para ser escolhidos")
             return False
 
-        self.show_pokemons()
         while True:
             try:
-                choose = int(input("Escolha seu pokemon:\n"))
-                selected_pokemon = self.pokemons[choose]
+                selected_pokemon = random.choice(self.pokemons)
                 print("{} escolheu {}\n".format(self.name, selected_pokemon.poke_name))
                 return selected_pokemon
             except Exception as e:
@@ -78,12 +76,42 @@ class Person:
         if not player_pokemon or not enemy_pokemon:
             return False
 
+        while True:
+            print("\nVida de {}: {}".format(enemy_pokemon.poke_name, enemy_pokemon.poke_life))
+            print("Vida de {}: {}\n".format(player_pokemon.poke_name, player_pokemon.poke_life))
+
+            enemy_victory = enemy_pokemon.atack(player_pokemon)
+            if(enemy_victory):
+                print("\n{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                break
+
+            player_victory = player_pokemon.atack(enemy_pokemon)
+            if(player_victory):
+                print("\n{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                break
+
 
 class Player(Person):
     person_type = "player"
 
     def __init__(self, name=None, pokemons=[]):
         super().__init__(name=name, pokemons=pokemons)
+
+    def choose_pokemon(self):
+        if not self.pokemons:
+            print("Não há pokemons para ser escolhidos")
+            return False
+
+        self.show_pokemons()
+        while True:
+            try:
+                choose = int(input("Escolha seu pokemon:\n"))
+                selected_pokemon = self.pokemons[choose]
+                print("{} escolheu {}\n".format(self.name, selected_pokemon.poke_name))
+                return selected_pokemon
+            except Exception as e:
+                print(e.args)
+                print("Escolha inválida")
 
 
 class Enemy(Person):
@@ -96,17 +124,3 @@ class Enemy(Person):
 
     def __init__(self, name=None, pokemons=[]):
         super().__init__(name=name, pokemons=pokemons or get_pokemon_list(), name_list=self.ENEMY_NAMES)
-
-    def choose_pokemon(self):
-        if not self.pokemons:
-            print("Não há pokemons para ser escolhidos")
-            return False
-
-        while True:
-            try:
-                selected_pokemon = random.choice(self.pokemons)
-                print("{} escolheu {}\n".format(self.name, selected_pokemon.poke_name))
-                return selected_pokemon
-            except Exception as e:
-                print(e.args)
-                print("Escolha inválida")
