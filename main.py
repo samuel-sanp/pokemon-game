@@ -33,9 +33,13 @@ if __name__ == '__main__':
     # player_name = input("Qual seu nome?\n")
     # player = Player(name=player_name)
     player = Player(name="Samuel")
-    choose_initial_pokemon(player)
+    print("{}, você possui {} moedas".format(player.name, player.money))
+    #choose_initial_pokemon(player)
 
-    charmander = FirePokemon(poke_specie="lagarto", poke_level=1)
-    enemy = Enemy(pokemons=[charmander])
+    # charmander = FirePokemon(poke_specie="lagarto", poke_level=1)
+    # enemy = Enemy(pokemons=[charmander])
 
-    player.battle(enemy)
+    # player.battle(enemy)
+
+    player.explore()
+    player.show_pokemons()

@@ -4,7 +4,7 @@ import random
 
 def get_pokemon_list():
     POKEMON_LIST = [
-        EletricPokemon(poke_specie="rato", poke_name="Picachu"),
+        EletricPokemon(poke_specie="rato", poke_name="Pikachu"),
         EletricPokemon(poke_specie="rato", poke_name="Raiuchu"),
         FirePokemon(poke_specie="lagarto", poke_name="Charmander"),
         FirePokemon(poke_specie="desconhecido", poke_name="Desconhecido"),
@@ -24,9 +24,10 @@ class Person:
         'Pessoa 3',
     ]
 
-    def __init__(self, name=None, pokemons=[], name_list=PERSON_NAMES):
+    def __init__(self, name=None, pokemons=[], name_list=PERSON_NAMES, money=100):
         self.name = name or random.choice(name_list)
         self.pokemons = pokemons
+        self.money = money
 
     def __str__(self):
         return self.name
@@ -77,25 +78,27 @@ class Person:
             return False
 
         while True:
-            print("\nVida de {}: {}".format(enemy_pokemon.poke_name, enemy_pokemon.poke_life))
+            print("Vida de {}: {}".format(enemy_pokemon.poke_name, enemy_pokemon.poke_life))
             print("Vida de {}: {}\n".format(player_pokemon.poke_name, player_pokemon.poke_life))
 
             enemy_victory = enemy_pokemon.atack(player_pokemon)
             if(enemy_victory):
-                print("\n{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                print("{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                self.decrement_money(10)
                 break
 
             player_victory = player_pokemon.atack(enemy_pokemon)
             if(player_victory):
-                print("\n{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                print("{} ganhou a batalha".format(enemy_pokemon.poke_name))
+                self.increment_money(10)
                 break
 
 
 class Player(Person):
     person_type = "player"
 
-    def __init__(self, name=None, pokemons=[]):
-        super().__init__(name=name, pokemons=pokemons)
+    def __init__(self, name=None, pokemons=[], money=100):
+        super().__init__(name=name, pokemons=pokemons, money=money)
 
     def choose_pokemon(self):
         if not self.pokemons:
@@ -112,6 +115,31 @@ class Player(Person):
             except Exception as e:
                 print(e.args)
                 print("Escolha inválida")
+
+    def increment_money(self, value):
+        self.money += value
+        print("{} ganhou {} moedas".format(self.name, value))
+
+    def decrement_money(self, value):
+        self.money -= value
+        print("{} perdeu {} moedas".format(self.name, value))
+
+    def explore(self):
+        if random.random() < 0.5:
+            print("Essa exploração não deu em nada")
+            return False
+
+        pokemon = random.choice(get_pokemon_list())
+
+        capture = input("{} apareceu! Deseja captura-lo? (s/n):\n".format(pokemon))
+        if capture != 's':
+            return False
+
+        if random.random() < 0.5:
+            print("{} fugiu!".format(pokemon.poke_name))
+            return False
+
+        self.capture(pokemon)
 
 
 class Enemy(Person):

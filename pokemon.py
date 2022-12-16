@@ -11,19 +11,23 @@ class Pokemon:
         self.poke_name = poke_name or poke_specie
         self.poke_life = self.poke_level * self.POKE_LIFE
         self.poke_atack = self.poke_level * self.BASIC_ATACK
-        self.poke_defense = 1 * self.poke_level
+        self.poke_defense = 2 * self.poke_level
 
     def __str__(self):
         return "{} (level {})".format(self.poke_name, self.poke_level)
 
     def atack(self, target):
-        damage = self.poke_atack - self.poke_defense
-        target.poke_life = target.poke_life - damage
+        defense = int(self.poke_defense * random.random())
+        damage = int(self.poke_atack * random.random())
+        final_damage = (damage - defense) if (damage - defense > 0) else 0
 
-        print("{} perdeu {} de vida".format(target.poke_name, damage))
+        target.poke_life -= final_damage
+
+        print("{} usou ataque {}({}) em {}!".format(self.poke_name, self.poke_type, damage, target.poke_name))
+        print("{} usou defesa ({})".format(self.poke_name, defense))
+        print("{} perdeu {} de vida\n".format(target.poke_name, final_damage))
 
         return target.poke_life <= 0
-
 
 class EletricPokemon(Pokemon):
     poke_type = "Eletricidade"
@@ -34,7 +38,6 @@ class EletricPokemon(Pokemon):
         self.poke_atack = self.poke_level * self.ELETRIC_ATACK
 
     def atack(self, target):
-        print("{} usou ataque {}({}) em {}!".format(self.poke_name, self.poke_type, self.poke_atack, target.poke_name))
         return super().atack(target)
 
 
@@ -47,5 +50,4 @@ class FirePokemon(Pokemon):
         self.poke_atack = self.poke_level * self.FIRE_ATACK
 
     def atack(self, target):
-        print("{} usou ataque {}({}) em {}!".format(self.poke_name, self.poke_type, self.poke_atack, target.poke_name))
         return super().atack(target)
