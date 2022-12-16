@@ -4,7 +4,7 @@ from pokemon import *
 
 def set_initial_pokemon(player, pokemon):
     player.set_pokemons([pokemon])
-    print("Você escolheu o pokemon {}".format(pokemon.poke_name))
+    print("Parabéns, você escolheu seu primeiro pokemon: {}\n".format(pokemon.poke_name))
 
 
 def choose_initial_pokemon(player):
@@ -27,11 +27,15 @@ def choose_initial_pokemon(player):
             set_initial_pokemon(player, charmander)
             break
 
-    print(player.show_pokemons())
-
 
 if __name__ == '__main__':
     print("Bem vindo ao mundo Pokemon!")
-    player_name = input("Qual seu nome?\n")
-    player = Player(name=player_name)
+    # player_name = input("Qual seu nome?\n")
+    # player = Player(name=player_name)
+    player = Player(name="Samuel")
     choose_initial_pokemon(player)
+
+    charmander = FirePokemon(poke_specie="lagarto", poke_level=1)
+    enemy = Enemy(pokemons=[charmander])
+
+    player.battle(enemy)

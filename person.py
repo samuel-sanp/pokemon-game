@@ -34,10 +34,11 @@ class Person:
     def show_pokemons(self):
         if self.pokemons:
             print("Pokemons de {}:".format(self.name))
-            for pokemon in self.pokemons:
-                print(pokemon)
+            for i, pokemon in enumerate(self.pokemons):
+                print("{} - {}".format(i, pokemon))
         else:
             print("{} não possui pokemons".format(self.name))
+        print()
 
     def set_pokemons(self, pokemons):
         for pokemon in pokemons:
@@ -51,6 +52,31 @@ class Person:
             print("{} capturou {}".format(self.name, target))
         else:
             print("{} escapou!".format(target))
+
+    def choose_pokemon(self):
+        if not self.pokemons:
+            print("Não há pokemons para ser escolhidos")
+            return False
+
+        self.show_pokemons()
+        while True:
+            try:
+                choose = int(input("Escolha seu pokemon:\n"))
+                selected_pokemon = self.pokemons[choose]
+                print("{} escolheu {}\n".format(self.name, selected_pokemon.poke_name))
+                return selected_pokemon
+            except Exception as e:
+                print(e.args)
+                print("Escolha inválida")
+
+    def battle(self, target):
+        print("Você iniciou uma batalha com {}\n".format(target.name))
+        target.show_pokemons()
+        enemy_pokemon = target.choose_pokemon()
+        player_pokemon = self.choose_pokemon()
+
+        if not player_pokemon or not enemy_pokemon:
+            return False
 
 
 class Player(Person):
@@ -70,3 +96,17 @@ class Enemy(Person):
 
     def __init__(self, name=None, pokemons=[]):
         super().__init__(name=name, pokemons=pokemons or get_pokemon_list(), name_list=self.ENEMY_NAMES)
+
+    def choose_pokemon(self):
+        if not self.pokemons:
+            print("Não há pokemons para ser escolhidos")
+            return False
+
+        while True:
+            try:
+                selected_pokemon = random.choice(self.pokemons)
+                print("{} escolheu {}\n".format(self.name, selected_pokemon.poke_name))
+                return selected_pokemon
+            except Exception as e:
+                print(e.args)
+                print("Escolha inválida")
